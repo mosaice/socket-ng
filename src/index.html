@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Client</title>
@@ -7,8 +8,20 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="/assets/css/style.css" rel="stylesheet">
+  <link href="/assets/fonts/Nunito/index.css" rel="stylesheet">
 </head>
+
 <body>
-  <app-root></app-root>
+  <app-root>
+    <div id="loader">
+      <p style="margin-top: 30px;">Loading...
+        <p/>
+        <svg class="circular" viewBox="25 25 50 50">
+          <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+  </app-root>
 </body>
+
 </html>
