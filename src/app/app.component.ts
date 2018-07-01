@@ -10,7 +10,7 @@ import { SocketIo } from 'ng-io';
 })
 export class AppComponent implements OnInit {
   constructor(private socket: SocketIo) {}
-  title = 'app';
+  name = 'app';
 
   ngOnInit() {
     console.log(1);

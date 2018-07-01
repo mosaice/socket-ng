@@ -1,19 +1,18 @@
 <nz-layout class="layout">
-  <nz-header style="position:fixed; width:100%">
+  <nz-header class="header">
     <div class="logo"></div>
-    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'horizontal'" style="line-height: 64px;">
-      <li nz-menu-item>nav 1</li>
-      <li nz-menu-item>nav 2</li>
-      <li nz-menu-item>nav 3</li>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'horizontal'" class="header-list">
+      <li nz-menu-item>房间列表</li>
+      <li nz-menu-item>关于</li>
+      <li nz-menu-item class="right">
+        <nz-avatar [nzText]="name" nzSize="large" [ngStyle]="{'background-color':color}" style="vertical-align: middle;"></nz-avatar>
+      </li>
+      <li nz-menu-item class="right">
+        正在播放：
+        <span>123132</span>
+      </li>
     </ul>
   </nz-header>
-  <nz-content style="padding:0 50px;margin-top:64px;">
-    <nz-breadcrumb style="margin:16px 0;">
-      <nz-breadcrumb-item>Home</nz-breadcrumb-item>
-      <nz-breadcrumb-item>List</nz-breadcrumb-item>
-      <nz-breadcrumb-item>App</nz-breadcrumb-item>
-    </nz-breadcrumb>
-    <div style="background:#fff; padding: 24px; min-height: 380px;">Content</div>
-  </nz-content>
-  <nz-footer style="text-align: center;">Ant Design ©2017 Implement By Angular</nz-footer>
+  <router-outlet></router-outlet>
+  <nz-footer style="text-align: center">Ant Design ©2017 Implement By Angular</nz-footer>
 </nz-layout>

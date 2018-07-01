@@ -1,0 +1,10 @@
+.content {
+  background: #fff;
+  padding: 24px;
+  min-height: 380px;
+}
+
+.content-wrapper {
+  padding: 0 50px;
+  margin-top: 64px
+}
