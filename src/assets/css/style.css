@@ -65,7 +65,8 @@
 }
 
 @keyframes color {
-  100%, 0% {
+  100%,
+  0% {
     stroke: #9c27b0;
   }
   50% {
@@ -74,4 +75,8 @@
   100% {
     stroke: #9c27b0;
   }
+}
+
+.ant-layout {
+  min-height: 100vh;
 }

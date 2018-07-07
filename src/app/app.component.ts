@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { SocketIo } from 'ng-io';
 
@@ -8,21 +8,32 @@ import { SocketIo } from 'ng-io';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   constructor(private socket: SocketIo) {}
-  name = 'app';
-
-  ngOnInit() {
-    console.log(1);
-    // this.socket.connect();
-    this.socket.on('connect', () => {
-      console.log('Connected');
-      this.socket.emit('events', { test: 'test' });
-    });
-    this.socket.on('events', data => {
-      console.log(data);
-    });
-    // this.socket.emit('events', 'test');
-    // this.socket.fromEvent('events').subscribe(data => console.log(data));
-  }
+  isCollapsed = false;
+  radioValue = '1';
+  list = [
+    {
+      name: '海阔天空',
+      id: 400162138,
+      artists: 'Beyond',
+      artistsUrl:
+        'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg',
+      album: '华纳23周年纪念精选系列',
+      albumUrl:
+        'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg',
+      duration: 323693
+    },
+    {
+      name: '海阔天空',
+      id: 347230,
+      artists: 'Beyond',
+      artistsUrl:
+        'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg',
+      album: '海阔天空',
+      albumUrl:
+        'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg',
+      duration: 326348
+    }
+  ];
 }
