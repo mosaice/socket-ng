@@ -11,8 +11,6 @@ import {
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/filter';
 import { filter, catchError } from 'rxjs/operators';
-// import 'rxjs/add/operator/catch';
-// import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class APIInterceptor implements HttpInterceptor {
