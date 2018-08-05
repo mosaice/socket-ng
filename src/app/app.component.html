@@ -74,7 +74,7 @@
 
         <div class="search-input">
           <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
-            <input type="text" nz-input [(ngModel)]="keyword" placeholder="input search text">
+            <input type="text" (keyup.enter)="onSearch()" nz-input [(ngModel)]="keyword" placeholder="input search text">
           </nz-input-group>
           <ng-template #suffixIconButton>
             <button nz-button nzType="primary" nzSearch (click)="onSearch()">
@@ -89,7 +89,7 @@
         </nz-card>
 
         <ng-template #actionSetting>
-          <i nz-tooltip nzTitle="单次点歌" class="anticon anticon-setting"></i>
+          <i (click)="select(music.id)" nz-tooltip nzTitle="单次点歌" class="anticon anticon-setting"></i>
         </ng-template>
         <ng-template #actionEdit>
           <i nz-tooltip nzTitle="重复点歌" class="anticon anticon-edit"></i>

@@ -41,4 +41,10 @@ export class AppComponent {
     this.page = index;
     this._search();
   }
+
+  select(id: number) {
+    this.search.getDetail(id).subscribe(data => {
+      console.log(data, 111);
+    });
+  }
 }

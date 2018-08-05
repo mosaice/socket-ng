@@ -30,6 +30,11 @@ interface Result {
   };
 }
 
+interface Detail {
+  data: { id: number; url: string; br: number }[];
+  code: number;
+}
+
 export interface Song {
   id: number;
   name: string;
@@ -66,5 +71,14 @@ export class SearchService {
         };
       })
     );
+  }
+
+  getDetail(id) {
+    return this.http.get<Detail>('/music/url', {
+      params: {
+        id: id,
+        br: '320000'
+      }
+    });
   }
 }
