@@ -20,7 +20,7 @@ export class APIInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const url = 'http://localhost:3000';
+    const url = 'https://netease.mosaice.cn';
     const successStatus = [200];
 
     if (req.url.includes('[noErrorCatch]')) {
@@ -31,13 +31,11 @@ export class APIInterceptor implements HttpInterceptor {
     }
 
     const clonedRequest = req.clone({ url: url + req.url });
+
     return next.handle(clonedRequest).pipe(
       filter((ev: HttpEvent<any>) => {
         if (ev instanceof HttpResponse) {
-          if (
-            !successStatus.includes(ev.status) ||
-            ev.body.statusCode !== 200
-          ) {
+          if (!successStatus.includes(ev.status) || ev.body.code !== 200) {
             this.message.error(`${ev.body.error}: ${ev.body.message}`);
             return false;
           }

@@ -1,6 +1,7 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { SocketIo } from 'ng-io';
+import { SearchService, Songs, Song } from './services/search.service';
 
 @Injectable()
 @Component({
@@ -9,31 +10,35 @@ import { SocketIo } from 'ng-io';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private socket: SocketIo) {}
+  constructor(private socket: SocketIo, private search: SearchService) {}
   isCollapsed = false;
-  radioValue = '1';
-  list = [
-    {
-      name: '海阔天空',
-      id: 400162138,
-      artists: 'Beyond',
-      artistsUrl:
-        'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg',
-      album: '华纳23周年纪念精选系列',
-      albumUrl:
-        'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg',
-      duration: 323693
-    },
-    {
-      name: '海阔天空',
-      id: 347230,
-      artists: 'Beyond',
-      artistsUrl:
-        'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg',
-      album: '海阔天空',
-      albumUrl:
-        'http://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg',
-      duration: 326348
-    }
-  ];
+  // radioValue = '1';
+  page = 1;
+  pageSize = 30;
+  keyword = '';
+  songCounts: number;
+  list: Song[] = [];
+
+  onSearch() {
+    this.page = 1;
+    this._search();
+  }
+
+  _search() {
+    this.search
+      .search({
+        keywords: this.keyword,
+        limit: this.pageSize,
+        offset: this.pageSize * this.page
+      })
+      .subscribe(res => {
+        this.list = res.songs;
+        this.songCounts = res.songCount;
+      });
+  }
+
+  choosePage(index: number) {
+    this.page = index;
+    this._search();
+  }
 }

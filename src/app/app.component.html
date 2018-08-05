@@ -71,35 +71,23 @@
         <nz-avatar class="users-avator" nzIcon="anticon anticon-user" style="background-color:#87d068;"></nz-avatar>
       </div>
       <div class="search">
-        <div class="search-radio">
-          <nz-radio-group [(ngModel)]="radioValue">
-            <label nz-radio-button nzValue="1">歌曲</label>
-            <label nz-radio-button nzValue="10">专辑</label>
-            <label nz-radio-button nzValue="100">歌手</label>
-          </nz-radio-group>
 
-        </div>
         <div class="search-input">
           <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
-            <input type="text" nz-input placeholder="input search text">
+            <input type="text" nz-input [(ngModel)]="keyword" placeholder="input search text">
           </nz-input-group>
           <ng-template #suffixIconButton>
-            <button nz-button nzType="primary" nzSearch>
+            <button nz-button nzType="primary" nzSearch (click)="onSearch()">
               <i class="anticon anticon-search"></i>
             </button>
           </ng-template>
         </div>
       </div>
       <div *ngFor="let music of list;" class="list">
-        <nz-card [nzTitle]="music.name" class="list-card" [nzCover]="coverTemplate" [nzActions]="[actionSetting,actionEdit]">
-          <nz-card-meta [nzTitle]="music.artists" [nzDescription]="music.album" [nzAvatar]="avatarTemplate"></nz-card-meta>
+        <nz-card [nzTitle]="music.name" class="list-card" [nzActions]="[actionSetting,actionEdit]">
+          <nz-card-meta [nzTitle]="music.artist" [nzDescription]="music.album"></nz-card-meta>
         </nz-card>
-        <ng-template #avatarTemplate>
-          <nz-avatar [nzSrc]="music.artistsUrl"></nz-avatar>
-        </ng-template>
-        <ng-template #coverTemplate>
-          <img alt="album" [src]="music.albumUrl" />
-        </ng-template>
+
         <ng-template #actionSetting>
           <i nz-tooltip nzTitle="单次点歌" class="anticon anticon-setting"></i>
         </ng-template>
@@ -107,9 +95,11 @@
           <i nz-tooltip nzTitle="重复点歌" class="anticon anticon-edit"></i>
         </ng-template>
       </div>
+      <nz-pagination (nzPageIndexChange)="choosePage($event)" [nzPageIndex]="page" [nzPageSize]="pageSize" [nzHideOnSinglePage]="true"
+        [nzTotal]="songCounts"></nz-pagination>
       <div class=" content ">Content</div>
     </nz-content>
-    <nz-footer style="text-align: center; ">Ant Design ©2017 Implement By Angular</nz-footer>
+    <nz-footer style="text-align: center; ">SJTU SOCKET-MUSIC ©2017 Implement By Angular</nz-footer>
   </nz-layout>
 </nz-layout>
 <ng-template #trigger>
