@@ -9,14 +9,15 @@ import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
 import { registerLocaleData } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { APIInterceptor } from './services/api-interceptor.service';
+import { AuthGuard, NoAuthGuard } from './services/router.guard';
 import { RoomComponent } from './room/room.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import zh from '@angular/common/locales/zh';
 registerLocaleData(zh);
 
 export const routes: Routes = [
-  { path: '', component: RoomComponent },
-  { path: 'signin', component: SignInComponent },
+  { path: '', component: RoomComponent, canActivate: [AuthGuard] },
+  { path: 'signin', component: SignInComponent, canActivate: [NoAuthGuard] },
   { path: '**', redirectTo: '/' }
 ];
 
@@ -35,6 +36,8 @@ export const routes: Routes = [
   ],
   bootstrap: [AppComponent],
   providers: [
+    AuthGuard,
+    NoAuthGuard,
     { provide: NZ_I18N, useValue: zh_CN },
     { provide: HTTP_INTERCEPTORS, useClass: APIInterceptor, multi: true }
   ]

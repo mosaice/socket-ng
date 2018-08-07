@@ -17,13 +17,8 @@ import { Observable } from 'rxjs';
 export class AuthService {
   constructor(private router: Router) {}
 
-  user = true;
+  user = false;
   checkUser() {
-    if (this.user) {
-      return true;
-    }
-
-    this.router.navigate(['/signin']);
-    return false;
+    return this.user;
   }
 }
