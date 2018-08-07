@@ -1,6 +1,107 @@
-<nz-content class="content-wrapper">
+<nz-layout>
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate">
+    <div class="avatar-container">
+      <nz-avatar [nzText]="'app'" nzSize="large"></nz-avatar>
+    </div>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" style="line-height: 64px;">
+      <li nz-menu-item>{{ isCollapsed ? "房间" : "房间列表"}}</li>
+      <li nz-menu-item>{{ isCollapsed ? "关于" : "关于项目"}}</li>
+      <li nz-menu-item>{{ isCollapsed ? "切换" : "切换身份"}}</li>
+      <li nz-menu-item>
+        <nz-divider></nz-divider>
+      </li>
+      <li nz-menu-item>
+        歌名1
+      </li>
+      <li nz-menu-item>
+        歌名1
+      </li>
+      <li nz-menu-item>
+        歌名1
+      </li>
+      <li nz-menu-item>
+        歌名1
+      </li>
+      <li nz-menu-item>
+        歌名1
+      </li>
+      <li nz-menu-item>
+        歌名1
+      </li>
+      <li nz-menu-item>
+        歌名1
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header class="header">
+      <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed" (click)="isCollapsed=!isCollapsed"></i>
+      <span>正在播放：歌名</span>
+      <div class="header-menu">
+        <ul nz-menu [nzMode]="'horizontal'" style="line-height: 64px;">
+          <li nz-menu-item>
+            <i class="anticon anticon-mail"></i>点歌
+          </li>
 
-  <h2 class="title">房间名</h2>
-  <p>介绍</p>
-  <div class="content">Content</div>
-</nz-content>
+          <li nz-menu-item>
+            <i class="anticon anticon-mail"></i>切歌
+          </li>
+
+          <li nz-menu-item>
+            <i class="anticon anticon-mail"></i>静音
+          </li>
+
+          <li nz-menu-item>
+            <i class="anticon anticon-mail"></i>只静音当前歌曲
+          </li>
+        </ul>
+      </div>
+    </nz-header>
+    <nz-progress class="header-progress" [nzShowInfo]="false" [nzPercent]="50" [nzStrokeWidth]="3" nzStatus="active"></nz-progress>
+    <nz-content class="content-wrapper">
+      <h2 class="title">房间名</h2>
+      <p>介绍</p>
+
+      <div class="users">
+        <nz-avatar class="users-avator" nzIcon="anticon anticon-user"></nz-avatar>
+        <nz-avatar class="users-avator" nzText="U"></nz-avatar>
+        <nz-avatar class="users-avator" nzText="USER"></nz-avatar>
+        <nz-avatar class="users-avator" nzIcon="anticon anticon-user" nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+        <nz-avatar class="users-avator" nzText="U" style="color:#f56a00; background-color:#fde3cf;"></nz-avatar>
+        <nz-avatar class="users-avator" nzIcon="anticon anticon-user" style="background-color:#87d068;"></nz-avatar>
+      </div>
+      <div class="search">
+
+        <div class="search-input">
+          <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
+            <input type="text" (keyup.enter)="onSearch()" nz-input [(ngModel)]="keyword" placeholder="input search text">
+          </nz-input-group>
+          <ng-template #suffixIconButton>
+            <button nz-button nzType="primary" nzSearch (click)="onSearch()">
+              <i class="anticon anticon-search"></i>
+            </button>
+          </ng-template>
+        </div>
+      </div>
+      <div *ngFor="let music of list;" class="list">
+        <nz-card [nzTitle]="music.name" class="list-card" [nzActions]="[actionSetting,actionEdit]">
+          <nz-card-meta [nzTitle]="music.artist" [nzDescription]="music.album"></nz-card-meta>
+        </nz-card>
+
+        <ng-template #actionSetting>
+          <i (click)="select(music.id)" nz-tooltip nzTitle="单次点歌" class="anticon anticon-setting"></i>
+        </ng-template>
+        <ng-template #actionEdit>
+          <i nz-tooltip nzTitle="重复点歌" class="anticon anticon-edit"></i>
+        </ng-template>
+      </div>
+      <nz-pagination (nzPageIndexChange)="choosePage($event)" [nzPageIndex]="page" [nzPageSize]="pageSize" [nzHideOnSinglePage]="true"
+        [nzTotal]="songCounts"></nz-pagination>
+      <div class=" content ">Content</div>
+    </nz-content>
+    <nz-footer style="text-align: center; ">SJTU SOCKET-MUSIC ©2017 Implement By Angular</nz-footer>
+  </nz-layout>
+</nz-layout>
+<ng-template #trigger>
+  <i class="anticon anticon-up "></i>
+</ng-template>

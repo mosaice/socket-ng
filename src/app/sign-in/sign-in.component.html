@@ -1,0 +1,35 @@
+<div>
+  <form [nzLayout]="'vertical'" nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+    <h2 class="title">申请用户</h2>
+    <div class="avator-preview">
+      <nz-avatar [nzText]="avatorText()" [ngStyle]="{'background-color':color}" nzSize="large"></nz-avatar>
+    </div>
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="userName">用户名</nz-form-label>
+      <nz-form-control>
+        <input nz-input placeholder="支持空格分割姓名" formControlName="userName" id="email">
+        <nz-form-explain *ngIf="validateForm.get('userName').dirty && validateForm.get('userName').errors">请输入用户名</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label>头像设置
+        <button (click)="changeColor()" class="color" nz-button nzType="primary" nzGhost>换色</button>
+      </nz-form-label>
+      <nz-form-control>
+        <nz-radio-group formControlName="avatorMode">
+          <label nz-radio [nzValue]="i" *ngFor="let o of radios; let i=index">{{o}}</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+
+
+
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button class="login-form-button " [nzType]=" 'primary' ">Log in</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

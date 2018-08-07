@@ -1,0 +1,28 @@
+.login-form {
+  max-width: 300px;
+  margin: auto;
+  padding-top: 10%;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.title {
+  text-align: center;
+  margin: 10px;
+}
+
+.avator-preview {
+  text-align: center;
+  margin: 10px;
+}
+
+.tip {
+  font: 12px;
+  color: #ededed;
+}
+
+.color {
+  float: right;
+}

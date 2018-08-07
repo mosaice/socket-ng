@@ -3,29 +3,32 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NgIoModule, NgIoConfig } from 'ng-io';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
 import { registerLocaleData } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { APIInterceptor } from './services/api-interceptor.service';
 import { RoomComponent } from './room/room.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 import zh from '@angular/common/locales/zh';
 registerLocaleData(zh);
 
 export const routes: Routes = [
   { path: '', component: RoomComponent },
+  { path: 'signin', component: SignInComponent },
   { path: '**', redirectTo: '/' }
 ];
 
-const config: NgIoConfig = { url: 'ws://localhost:3000', options: {} };
+// const config: NgIoConfig = { url: 'ws://localhost:3000', options: {} };
 @NgModule({
-  declarations: [AppComponent, RoomComponent],
+  declarations: [AppComponent, RoomComponent, SignInComponent],
   imports: [
     BrowserModule,
-    NgIoModule.forRoot(config),
+    // NgIoModule.forRoot(config),
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     NgZorroAntdModule,
     RouterModule.forRoot(routes)
