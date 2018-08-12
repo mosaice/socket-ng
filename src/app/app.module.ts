@@ -10,6 +10,7 @@ import { registerLocaleData } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { APIInterceptor } from './services/api-interceptor.service';
 import { AuthGuard, NoAuthGuard } from './services/router.guard';
+import { SocketService } from './services/socket.service';
 import { RoomComponent } from './room/room.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import zh from '@angular/common/locales/zh';
@@ -21,12 +22,12 @@ export const routes: Routes = [
   { path: '**', redirectTo: '/' }
 ];
 
-// const config: NgIoConfig = { url: 'ws://localhost:3000', options: {} };
+const config: NgIoConfig = { url: 'ws://localhost:3000', options: {} };
 @NgModule({
   declarations: [AppComponent, RoomComponent, SignInComponent],
   imports: [
     BrowserModule,
-    // NgIoModule.forRoot(config),
+    NgIoModule.forRoot(config),
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,

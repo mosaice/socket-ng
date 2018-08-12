@@ -1,7 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-// import { SocketIo } from 'ng-io';
-import { SearchService, Songs, Song } from '../services/search.service';
-
+import { SearchService } from '../services/search.service';
+import { SocketService } from '../services/socket.service';
 @Injectable()
 @Component({
   selector: 'app-room',
@@ -9,18 +8,18 @@ import { SearchService, Songs, Song } from '../services/search.service';
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
-  constructor(
-    // private socket: SocketIo,
-    private search: SearchService
-  ) {}
+  constructor(private search: SearchService, private socket: SocketService) {}
   isCollapsed = false;
-  // radioValue = '1';
   page = 1;
   pageSize = 30;
   keyword = '';
   songCounts: number;
   list: Song[] = [];
-  ngOnInit() {}
+  ngOnInit() {
+    if (!this.socket.connected) {
+      this.socket.connect(this.socket.user);
+    }
+  }
 
   onSearch() {
     this.page = 1;
@@ -45,9 +44,10 @@ export class RoomComponent implements OnInit {
     this._search();
   }
 
-  select(id: number) {
-    this.search.getDetail(id).subscribe(data => {
-      console.log(data, 111);
+  select(song: Song) {
+    this.search.getDetail(song.id).subscribe(data => {
+      const songData = { ...song, url: data.data[0].url };
+      this.socket.selectSong(songData);
     });
   }
 }

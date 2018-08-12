@@ -1,6 +1,6 @@
 <div>
   <form [nzLayout]="'vertical'" nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
-    <h2 class="title">申请用户</h2>
+    <h2 class="title">新用户</h2>
     <div class="avator-preview">
       <nz-avatar [nzText]="avatorText()" [ngStyle]="{'background-color':color}" nzSize="large"></nz-avatar>
     </div>
@@ -23,12 +23,9 @@
       </nz-form-control>
     </nz-form-item>
 
-
-
-
     <nz-form-item>
       <nz-form-control>
-        <button nz-button class="login-form-button " [nzType]=" 'primary' ">Log in</button>
+        <button [disabled]="!validateForm.valid" nz-button class="login-form-button " [nzType]="'primary'">创建</button>
       </nz-form-control>
     </nz-form-item>
   </form>

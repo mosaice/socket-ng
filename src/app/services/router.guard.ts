@@ -5,17 +5,17 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot
 } from '@angular/router';
-import { AuthService } from './auth.service';
+import { SocketService } from './socket.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private socket: SocketService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    if (this.auth.checkUser()) {
+    if (this.socket.checkUser()) {
       return true;
     }
     this.router.navigate(['/signin']);
@@ -25,13 +25,13 @@ export class AuthGuard implements CanActivate {
 
 @Injectable()
 export class NoAuthGuard implements CanActivate {
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private socket: SocketService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    if (!this.auth.checkUser()) {
+    if (!this.socket.checkUser()) {
       return true;
     }
     this.router.navigate(['/']);

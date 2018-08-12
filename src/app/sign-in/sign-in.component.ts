@@ -1,8 +1,7 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 // import { SocketIo } from 'ng-io';
-import { AuthService } from '../services/auth.service';
+import { SocketService } from '../services/socket.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Injectable()
@@ -17,14 +16,15 @@ export class SignInComponent implements OnInit {
   radios = ['全称', '首字', '姓', '名'];
 
   submitForm(): void {
-    console.log(this.validateForm.value);
+    const user = {
+      name: this.validateForm.value.userName,
+      avatarColor: this.color,
+      avatarText: this.avatorText()
+    };
+    this.socket.connect(user);
   }
 
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private auth: AuthService
-  ) {}
+  constructor(private fb: FormBuilder, private socket: SocketService) {}
 
   avatorText() {
     const { userName, avatorMode } = this.validateForm.value;
@@ -48,10 +48,6 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.auth.checkUser()) {
-      this.router.navigate(['/']);
-      return;
-    }
     this.validateForm = this.fb.group({
       userName: [null, [Validators.required]],
       avatorMode: [0, [Validators.required]]

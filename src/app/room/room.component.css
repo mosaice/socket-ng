@@ -81,6 +81,19 @@
   margin: 10px;
 }
 
+.list-card {
+  cursor: pointer;
+}
+.list-card:hover {
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+:host ::ng-deep .ant-pagination {
+  margin: 10px 0;
+  text-align: center;
+}
+
 :host ::ng-deep .ant-card-meta-description {
   overflow: hidden;
   text-overflow: ellipsis;

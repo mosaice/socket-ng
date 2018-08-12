@@ -35,17 +35,19 @@ interface Detail {
   code: number;
 }
 
-export interface Song {
-  id: number;
-  name: string;
-  artist: string;
-  album: string;
-  duration: number;
-}
+declare global {
+  interface Song {
+    id: number;
+    name: string;
+    artist: string;
+    album: string;
+    duration: number;
+  }
 
-export interface Songs {
-  songCount: number;
-  songs: Song[];
+  interface Songs {
+    songCount: number;
+    songs: Song[];
+  }
 }
 
 @Injectable({
