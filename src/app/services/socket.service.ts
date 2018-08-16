@@ -11,6 +11,10 @@ declare global {
     avatarText: string;
     avatarColor: string;
   }
+
+  interface ActiveSongs extends Songs {
+    url: string;
+  }
 }
 
 @Injectable({
@@ -20,6 +24,7 @@ export class SocketService {
   connected = false;
   user: User;
   onlineUser: User[] = [];
+  activeSongs: ActiveSongs[] = [];
 
   constructor(
     private socket: SocketIo,
@@ -45,6 +50,10 @@ export class SocketService {
 
     this.socket.fromEvent<User[]>('userJoin').subscribe(name => {
       this.notify.info(`${name} 加入房间`, '');
+    });
+
+    this.socket.fromEvent<string[]>('syncSongs').subscribe(songs => {
+      this.activeSongs = songs.map(v => JSON.parse(v));
     });
 
     this.socket.fromEvent<string>('error').subscribe(data => {
@@ -81,5 +90,6 @@ export class SocketService {
   selectSong(song: Song) {
     // TODO: 点歌
     this.socket.emit('selectSong', song);
+    this.message.success('点歌成功');
   }
 }

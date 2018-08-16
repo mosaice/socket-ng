@@ -10,6 +10,7 @@ import { SocketService } from '../services/socket.service';
 export class RoomComponent implements OnInit {
   constructor(private search: SearchService, private socket: SocketService) {}
   isCollapsed = false;
+  showSearch = true;
   page = 1;
   pageSize = 30;
   keyword = '';

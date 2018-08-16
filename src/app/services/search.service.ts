@@ -59,7 +59,7 @@ export class SearchService {
   search(params): Observable<Songs> {
     return this.http.get<Result>('/search', { params }).pipe(
       map<Result, Songs>(v => {
-        const songs = v.result.songs.map(song => ({
+        const songs = (v.result.songs || []).map(song => ({
           id: song.id,
           name: song.name,
           duration: song.duration,

@@ -5,7 +5,15 @@
   margin: 16px 24px 16px 0;
   float: left;
 }
-
+.slider {
+  position: fixed;
+  height: 100%;
+  left: 0;
+}
+.song-container {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
 .header {
   position: relative;
   background: #fff;
