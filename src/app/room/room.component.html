@@ -1,5 +1,5 @@
 <nz-layout class="layout" [style.padding-left.px]="isCollapsed ? 80 : 200">
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="triggerTemplate" class="slider">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" class="slider">
     <div class="avatar-container">
       <nz-avatar [ngStyle]="{'background-color':socket.user.avatarColor}" [nzText]="socket.user.avatarText" nzSize="large"></nz-avatar>
     </div>
@@ -46,7 +46,7 @@
       </div>
     </nz-header>
     <app-player [mute]="socket.mute || socket.muteOnce" [playTime]="socket.playingSong.playTime" [url]="socket.playingSong.url"
-      *ngIf="socket.playingSong"></app-player>
+      *ngIf="socket.playingSong && socket.inited"></app-player>
     <nz-content class="content-wrapper">
       <!-- <h2 class="title">房间名</h2>
       <p>介绍</p> -->

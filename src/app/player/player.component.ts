@@ -32,11 +32,9 @@ export class PlayerComponent implements OnDestroy {
 
   ngAfterViewInit() {
     this.audio.nativeElement.addEventListener('timeupdate', this.update, false);
-    setTimeout(() => {
-      const time = Date.now() - this.playTime;
-      this.audio.nativeElement.currentTime = time / 1000;
-      this.audio.nativeElement.play();
-    });
+    const time = Date.now() - this.playTime;
+    this.audio.nativeElement.currentTime = time / 1000;
+    this.audio.nativeElement.play();
   }
 
   update = (audio: HTMLAudioElement) => {

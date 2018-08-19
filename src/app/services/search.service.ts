@@ -80,11 +80,14 @@ export class SearchService {
   }
 
   getDetail(id) {
-    return this.http.get<Detail>('/music/url', {
-      params: {
-        id: id,
-        br: '320000'
-      }
-    });
+    // return this.http.get<Detail>('/music/url', {
+    //   params: {
+    //     id: id,
+    //     br: '320000'
+    //   }
+    // });
+    // return this.http.get<string>(
+    //   `http://music.163.com/song/media/outer/url?id=${id}.mp3`
+    // );
   }
 }

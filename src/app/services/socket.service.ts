@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SocketIo } from 'ng-io';
-import { NzNotificationService, NzMessageService } from 'ng-zorro-antd';
+import {
+  NzNotificationService,
+  NzMessageService,
+  NzModalService
+} from 'ng-zorro-antd';
 
 declare global {
   interface User {
@@ -28,9 +32,11 @@ export class SocketService {
   playingSong?: SongData;
   muteOnce: boolean = false;
   mute: boolean = false;
+  inited: boolean = false;
   constructor(
     private socket: SocketIo,
     private router: Router,
+    private modalService: NzModalService,
     private notify: NzNotificationService,
     private message: NzMessageService
   ) {}
@@ -42,6 +48,14 @@ export class SocketService {
       localStorage.setItem('music_user', JSON.stringify(user));
       if (this.router.url !== '/') {
         this.router.navigate(['/']);
+      } else {
+        this.modalService.success({
+          nzTitle: `欢迎回来 ${user.name}`,
+          nzContent: '继续享受音乐吧',
+          nzOnOk: () => {
+            this.inited = true;
+          }
+        });
       }
       // this.getAllUsers();
     });
@@ -92,6 +106,10 @@ export class SocketService {
     if (this.activeSongs.length) {
       this.socket.emit('nextSong');
     }
+  }
+
+  muteAction(type: 'mute' | 'muteOnce') {
+    this[type] = !this[type];
   }
 
   checkUser() {

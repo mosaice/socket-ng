@@ -14,6 +14,7 @@ import { PlayerComponent } from './player/player.component';
 import { RoomComponent } from './room/room.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import zh from '@angular/common/locales/zh';
+import { environment } from '../environments/environment';
 registerLocaleData(zh);
 
 export const routes: Routes = [
@@ -22,7 +23,10 @@ export const routes: Routes = [
   { path: '**', redirectTo: '/' }
 ];
 
-const config: NgIoConfig = { url: 'ws://localhost:3000', options: {} };
+const config: NgIoConfig = {
+  url: environment.server,
+  options: { transports: ['websocket', 'polling', 'flashsocket'] }
+};
 @NgModule({
   declarations: [AppComponent, RoomComponent, SignInComponent, PlayerComponent],
   imports: [

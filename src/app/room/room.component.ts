@@ -8,7 +8,7 @@ import { SocketService } from '../services/socket.service';
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
-  constructor(private search: SearchService, private socket: SocketService) {}
+  constructor(private search: SearchService, public socket: SocketService) {}
   isCollapsed = false;
   showSearch = true;
   page = 1;
@@ -46,17 +46,18 @@ export class RoomComponent implements OnInit {
   }
 
   mute(type: 'mute' | 'muteOnce') {
-    this.socket[type] = !this.socket[type];
+    this.socket.muteAction(type);
   }
 
   select(song: Song) {
     // this.search.getDetail(song.id).subscribe(data => {
-    //   const songData = { ...song, url: data.data[0].url };
+    //   console.log(data);
+    //   const songData = { ...song, url: data };
     //   this.socket.selectSong(songData);
     // });
     const songData = {
       ...song,
-      url: `http://music.163.com/song/media/outer/url?id=${song.id}.mp3`
+      url: `https://music.163.com/song/media/outer/url?id=${song.id}.mp3`
     };
     this.socket.selectSong(songData);
   }
