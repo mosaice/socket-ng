@@ -20,9 +20,8 @@
   padding: 0;
 }
 
-.header-progress {
-  width: 100%;
-  margin-top: -8px;
+.mute {
+  color: #1890ff;
 }
 
 .title {

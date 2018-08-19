@@ -1,4 +1,5 @@
 import { Component, Injectable, OnInit } from '@angular/core';
+import Fingerprint2 from 'fingerprintjs2';
 
 // import { SocketIo } from 'ng-io';
 import { SocketService } from '../services/socket.service';
@@ -19,9 +20,13 @@ export class SignInComponent implements OnInit {
     const user = {
       name: this.validateForm.value.userName,
       avatarColor: this.color,
-      avatarText: this.avatorText()
+      avatarText: this.avatorText(),
+      hash: ''
     };
-    this.socket.connect(user);
+    new Fingerprint2().get(result => {
+      user.hash = result;
+      this.socket.connect(user);
+    });
   }
 
   constructor(private fb: FormBuilder, private socket: SocketService) {}

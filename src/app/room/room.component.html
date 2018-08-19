@@ -6,7 +6,7 @@
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" style="line-height: 64px;">
       <!-- <li nz-menu-item>{{ isCollapsed ? "房间" : "房间列表"}}</li> -->
       <!-- <li nz-menu-item>{{ isCollapsed ? "关于" : "关于项目"}}</li> -->
-      <li nz-menu-item>{{ isCollapsed ? "切换" : "切换身份"}}</li>
+      <li nz-menu-item (click)="socket.cleanUser()">{{ isCollapsed ? "切换" : "切换身份"}}</li>
       <li nz-menu-item>
         <nz-divider></nz-divider>
       </li>
@@ -22,7 +22,7 @@
   <nz-layout>
     <nz-header class="header">
       <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed" (click)="isCollapsed=!isCollapsed"></i>
-      <span>正在播放：歌名</span>
+      <span *ngIf="socket.playingSong">正在播放：{{socket.playingSong.name}}</span>
       <div class="header-menu">
         <ul nz-menu [nzMode]="'horizontal'" style="line-height: 64px;">
           <li nz-menu-item>
@@ -31,21 +31,22 @@
             </label>
           </li>
 
-          <li nz-menu-item>
-            <i class="anticon anticon-mail"></i>切歌
+          <li (click)="socket.nextSong()" nz-menu-item>
+            <i class="anticon anticon-step-forward"></i>切歌
           </li>
 
-          <li nz-menu-item>
-            <i class="anticon anticon-mail"></i>静音
+          <li (click)="mute('mute')" nz-menu-item>
+            <i [class.mute]="socket.mute" class="anticon anticon-sound"></i>{{ socket.mute ? '恢复' : '静音'}}
           </li>
 
-          <li nz-menu-item>
-            <i class="anticon anticon-mail"></i>单曲静音
+          <li (click)="mute('muteOnce')" nz-menu-item>
+            <i [class.mute]="socket.muteOnce" class="anticon anticon-sound"></i>{{ socket.muteOnce ? '恢复' : '单曲静音'}}
           </li>
         </ul>
       </div>
     </nz-header>
-    <nz-progress class="header-progress" [nzShowInfo]="false" [nzPercent]="50" [nzStrokeWidth]="3" nzStatus="active"></nz-progress>
+    <app-player [mute]="socket.mute || socket.muteOnce" [playTime]="socket.playingSong.playTime" [url]="socket.playingSong.url"
+      *ngIf="socket.playingSong"></app-player>
     <nz-content class="content-wrapper">
       <!-- <h2 class="title">房间名</h2>
       <p>介绍</p> -->

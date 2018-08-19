@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SocketIo } from 'ng-io';
 import { NzNotificationService, NzMessageService } from 'ng-zorro-antd';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 declare global {
   interface User {
+    hash: string;
     name: string;
     avatarText: string;
     avatarColor: string;
@@ -14,6 +13,7 @@ declare global {
 
   interface ActiveSongs extends Songs {
     url: string;
+    playTime: number;
   }
 }
 
@@ -25,7 +25,9 @@ export class SocketService {
   user: User;
   onlineUser: User[] = [];
   activeSongs: ActiveSongs[] = [];
-
+  playingSong?: SongData;
+  muteOnce: boolean = false;
+  mute: boolean = false;
   constructor(
     private socket: SocketIo,
     private router: Router,
@@ -48,8 +50,24 @@ export class SocketService {
       this.onlineUser = users;
     });
 
-    this.socket.fromEvent<User[]>('userJoin').subscribe(name => {
-      this.notify.info(`${name} 加入房间`, '');
+    this.socket.fromEvent<string>('userJoin').subscribe(name => {
+      if (this.connected) {
+        this.notify.info(`${name} 加入房间`, '');
+      }
+    });
+
+    this.socket.fromEvent<string>('userLevel').subscribe(name => {
+      if (this.connected) {
+        this.notify.info(`${name} 离开房间`, '');
+      }
+    });
+
+    this.socket.fromEvent<SongData>('playSong').subscribe(song => {
+      this.playingSong = song;
+      this.muteOnce = false;
+      if (song && this.connected) {
+        this.notify.info(`播放歌曲 ${song.name}`, '');
+      }
     });
 
     this.socket.fromEvent<string[]>('syncSongs').subscribe(songs => {
@@ -70,9 +88,11 @@ export class SocketService {
     this.socket.emit('userConnect', user);
   }
 
-  // getAllUsers() {
-  //   this.socket.emit('getAllUsers');
-  // }
+  nextSong() {
+    if (this.activeSongs.length) {
+      this.socket.emit('nextSong');
+    }
+  }
 
   checkUser() {
     if (!!this.user) return true;
@@ -87,8 +107,14 @@ export class SocketService {
     }
   }
 
+  cleanUser() {
+    this.user = null;
+    this.connected = false;
+    localStorage.removeItem('music_user');
+    this.router.navigate(['/signin']);
+  }
+
   selectSong(song: Song) {
-    // TODO: 点歌
     this.socket.emit('selectSong', song);
     this.message.success('点歌成功');
   }

@@ -44,6 +44,10 @@ declare global {
     duration: number;
   }
 
+  interface SongData extends Song {
+    url: string;
+  }
+
   interface Songs {
     songCount: number;
     songs: Song[];

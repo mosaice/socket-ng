@@ -14,7 +14,7 @@
 
     <nz-form-item>
       <nz-form-label>头像设置
-        <button (click)="changeColor()" class="color" nz-button nzType="primary" nzGhost>换色</button>
+        <button (click)="changeColor()" type="button" class="color" nz-button nzType="primary" nzGhost>换色</button>
       </nz-form-label>
       <nz-form-control>
         <nz-radio-group formControlName="avatorMode">
@@ -25,7 +25,7 @@
 
     <nz-form-item>
       <nz-form-control>
-        <button [disabled]="!validateForm.valid" nz-button class="login-form-button " [nzType]="'primary'">创建</button>
+        <button [disabled]="!validateForm.valid" nz-button class="login-form-button " nzType="primary">创建</button>
       </nz-form-control>
     </nz-form-item>
   </form>
