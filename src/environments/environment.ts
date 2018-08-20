@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  server: 'wss://ws.mosaice.cn'
+  server: 'ws://localhost:3000'
 };
 
 /*

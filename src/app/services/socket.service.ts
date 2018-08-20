@@ -30,9 +30,9 @@ export class SocketService {
   onlineUser: User[] = [];
   activeSongs: ActiveSongs[] = [];
   playingSong?: SongData;
-  muteOnce: boolean = false;
-  mute: boolean = false;
-  inited: boolean = false;
+  muteOnce = false;
+  mute = false;
+  inited = false;
   constructor(
     private socket: SocketIo,
     private router: Router,
@@ -48,15 +48,15 @@ export class SocketService {
       localStorage.setItem('music_user', JSON.stringify(user));
       if (this.router.url !== '/') {
         this.router.navigate(['/']);
-      } else {
-        this.modalService.success({
-          nzTitle: `欢迎回来 ${user.name}`,
-          nzContent: '继续享受音乐吧',
-          nzOnOk: () => {
-            this.inited = true;
-          }
-        });
       }
+
+      this.modalService.success({
+        nzTitle: `欢迎${this.router.url === '/' ? '回来' : ''} ${user.name}`,
+        nzContent: '继续享受音乐吧',
+        nzOnOk: () => {
+          this.inited = true;
+        }
+      });
       // this.getAllUsers();
     });
 
@@ -103,7 +103,7 @@ export class SocketService {
   }
 
   nextSong() {
-    if (this.activeSongs.length) {
+    if (this.playingSong) {
       this.socket.emit('nextSong');
     }
   }
@@ -113,11 +113,15 @@ export class SocketService {
   }
 
   checkUser() {
-    if (!!this.user) return true;
+    if (!!this.user) {
+      return true;
+    }
 
     try {
       const user = localStorage.getItem('music_user');
-      if (!user) return false;
+      if (!user) {
+        return false;
+      }
       this.user = JSON.parse(user);
       return true;
     } catch (error) {
