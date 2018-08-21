@@ -150,11 +150,11 @@
   left: 50%;
 }
 
-.message-avatar ::ng-deep .ant-avatar-string {
+/* .message-avatar ::ng-deep .ant-avatar-string {
   position: static !important;
   display: inline-block !important;
   left: 0 !important;
-}
+} */
 
 .send-by-me {
   flex-direction: row-reverse;
