@@ -1,4 +1,10 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import {
+  Component,
+  Injectable,
+  OnInit,
+  ElementRef,
+  ViewChild
+} from '@angular/core';
 import { SearchService } from '../services/search.service';
 import { SocketService } from '../services/socket.service';
 
@@ -13,44 +19,20 @@ export class RoomComponent implements OnInit {
   isCollapsed = false;
   showSearch = true;
   page = 1;
+  message = '';
   pageSize = 30;
   keyword = '';
   songCounts: number;
   list: Song[] = [];
-  data = [
-    {
-      title: 'Ant Design Title 1'
-    },
-    {
-      title: 'Ant Design Title 2'
-    },
-    {
-      title: 'Ant Design Title 3'
-    },
-    {
-      title: 'Ant Design Title 4'
-    },
-    {
-      title: 'Ant Design Title 4'
-    },
-    {
-      title: 'Ant Design Title 4'
-    },
-    {
-      title: 'Ant Design Title 4'
-    },
-    {
-      title: 'Ant Design Title 4'
-    },
-    {
-      title: 'Ant Design Title 4'
-    }
-  ];
+  @ViewChild('chat')
+  chat: ElementRef;
   ngOnInit() {
     if (!this.socket.connected) {
       this.socket.connect(this.socket.user);
     }
   }
+
+  valueWith = data => data.name;
 
   onSearch() {
     this.page = 1;
@@ -80,15 +62,27 @@ export class RoomComponent implements OnInit {
   }
 
   select(song: Song) {
-    // this.search.getDetail(song.id).subscribe(data => {
-    //   console.log(data);
-    //   const songData = { ...song, url: data };
-    //   this.socket.selectSong(songData);
-    // });
     const songData = {
       ...song,
       url: `https://music.163.com/song/media/outer/url?id=${song.id}.mp3`
     };
     this.socket.selectSong(songData);
+  }
+
+  onKey = (event: any) => {
+    if (event.key === 'Enter' && event.altKey) {
+      this.socket.sendMessage(this.message);
+      this.message = '';
+      setTimeout(() => {
+        const offset = this.chat.nativeElement.scrollHeight - 500;
+        if (offset > 0) {
+          this.chat.nativeElement.scrollTo(0, offset);
+        }
+      }, 300);
+    }
+  };
+
+  onScrollUp() {
+    this.socket.moreMessage();
   }
 }

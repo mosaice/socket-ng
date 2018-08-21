@@ -81,25 +81,37 @@
         <nz-pagination class="pagination" (nzPageIndexChange)="choosePage($event)" [nzPageIndex]="page" [nzPageSize]="pageSize" [nzHideOnSinglePage]="true"
           [nzTotal]="songCounts"></nz-pagination>
       </div>
-
       <div class="content">
-        <div class="demo-infinite-container" infiniteScroll [infiniteScrollThrottle]="50" [scrollWindow]="false">
-          <nz-list [nzDataSource]="data" [nzRenderItem]="item">
+        <div #chat class="demo-infinite-container" (scrolledUp)="onScrollUp()" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+          [scrollWindow]="false">
+          <nz-list [nzSplit]="false" [nzDataSource]="socket.messages" [nzRenderItem]="item">
             <ng-template #item let-item>
               <nz-list-item>
-                <nz-list-item-meta [nzTitle]="nzTitle" nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" [nzDescription]="item.email">
+                <nz-list-item-meta [class.send-by-me]="item.sendByMe" [nzTitle]="nzTitle" [nzAvatar]="avatar" [nzDescription]="message">
                   <ng-template #nzTitle>
-                    <a href="https://ng.ant.design">123</a>
+                    {{item.user.name}}
+                  </ng-template>
+                  <ng-template #message>
+                    <p class="message">{{item.message}}</p>
+                    <i class="time">{{item.time}}</i>
+                  </ng-template>
+                  <ng-template #avatar>
+                    <nz-avatar class="message-avatar" [ngStyle]="{'background-color':item.user.avatarColor}" [nzText]="item.user.avatarText"></nz-avatar>
                   </ng-template>
                 </nz-list-item-meta>
               </nz-list-item>
             </ng-template>
-            <nz-spin *ngIf="true" class="demo-loading"></nz-spin>
+            <nz-spin *ngIf="false" class="demo-loading"></nz-spin>
           </nz-list>
         </div>
-        <nz-mention [nzSuggestions]="suggestions">
-          <textarea class="textarea" [nzAutosize]="{ minRows: 8, maxRows: 16 }" nz-input [(ngModel)]="value" nzMentionTrigger>
+        <nz-mention [nzSuggestions]="socket.onlineUser" [nzValueWith]="valueWith">
+          <textarea (keyup)="onKey($event)" placeholder="ALT + 回车发送" class="textarea" [nzAutosize]="{ minRows: 5, maxRows: 15 }" nz-input
+            [(ngModel)]="message" nzMentionTrigger>
            </textarea>
+          <ng-container *nzMentionSuggestion="let user">
+            <nz-avatar nzSize="small" [ngStyle]="{'background-color':user.avatarColor}" [nzText]="user.avatarText"></nz-avatar>
+            <span> {{ user.name }}</span>
+          </ng-container>
         </nz-mention>
       </div>
 

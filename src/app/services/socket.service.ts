@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SocketIo } from 'ng-io';
+import { isEqual } from 'lodash';
 import {
   NzNotificationService,
   NzMessageService,
@@ -19,6 +20,13 @@ declare global {
     url: string;
     playTime: number;
   }
+
+  interface Message {
+    user: User;
+    message: string;
+    time: string;
+    sendByMe?: boolean;
+  }
 }
 
 @Injectable({
@@ -29,6 +37,7 @@ export class SocketService {
   user: User;
   onlineUser: User[] = [];
   activeSongs: ActiveSongs[] = [];
+  messages: Message[] = [];
   playingSong?: SongData;
   muteOnce = false;
   mute = false;
@@ -62,6 +71,19 @@ export class SocketService {
 
     this.socket.fromEvent<User[]>('getAllUsers').subscribe(users => {
       this.onlineUser = users;
+    });
+
+    this.socket.fromEvent<Message>('sendMessage').subscribe(msg => {
+      msg.sendByMe = isEqual(msg.user, this.user);
+      this.messages = [...this.messages, msg];
+    });
+
+    this.socket.fromEvent<string[]>('syncMessage').subscribe(msgs => {
+      const messages: Message[] = msgs.map(v => JSON.parse(v));
+      messages.forEach(v => {
+        v.sendByMe = isEqual(v.user, this.user);
+      });
+      this.messages = messages.concat(this.messages);
     });
 
     this.socket.fromEvent<string>('userJoin').subscribe(name => {
@@ -129,6 +151,12 @@ export class SocketService {
     }
   }
 
+  sendMessage(message) {
+    if (message) {
+      this.socket.emit('sendMessage', { user: this.user, message });
+    }
+  }
+
   cleanUser() {
     this.user = null;
     this.connected = false;
@@ -139,5 +167,10 @@ export class SocketService {
   selectSong(song: Song) {
     this.socket.emit('selectSong', song);
     this.message.success('点歌成功');
+  }
+
+  moreMessage() {
+    const pos = this.messages.length;
+    this.socket.emit('syncMessage', pos);
   }
 }

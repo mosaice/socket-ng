@@ -109,6 +109,7 @@
 
 .textarea {
   margin-top: 20px;
+  padding: 10px;
 }
 
 :host ::ng-deep .ant-pagination {
@@ -147,4 +148,34 @@
   position: absolute;
   bottom: -40px;
   left: 50%;
+}
+
+.message-avatar ::ng-deep .ant-avatar-string {
+  position: static !important;
+  display: inline-block !important;
+  left: 0 !important;
+}
+
+.send-by-me {
+  flex-direction: row-reverse;
+}
+
+.send-by-me ::ng-deep .ant-list-item-meta-content {
+  text-align: right;
+}
+
+.send-by-me ::ng-deep .ant-list-item-meta-avatar {
+  margin-left: 15px;
+  margin-right: 0;
+}
+
+.message {
+  margin-bottom: 0;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.time {
+  color: #ddd;
+  font-size: 12px;
 }

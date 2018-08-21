@@ -3,8 +3,6 @@ import {
   Injectable,
   ViewChild,
   ElementRef,
-  OnChanges,
-  SimpleChanges,
   Input,
   OnDestroy
 } from '@angular/core';
