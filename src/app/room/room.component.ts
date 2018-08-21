@@ -1,6 +1,7 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { SearchService } from '../services/search.service';
 import { SocketService } from '../services/socket.service';
+
 @Injectable()
 @Component({
   selector: 'app-room',
@@ -16,6 +17,35 @@ export class RoomComponent implements OnInit {
   keyword = '';
   songCounts: number;
   list: Song[] = [];
+  data = [
+    {
+      title: 'Ant Design Title 1'
+    },
+    {
+      title: 'Ant Design Title 2'
+    },
+    {
+      title: 'Ant Design Title 3'
+    },
+    {
+      title: 'Ant Design Title 4'
+    },
+    {
+      title: 'Ant Design Title 4'
+    },
+    {
+      title: 'Ant Design Title 4'
+    },
+    {
+      title: 'Ant Design Title 4'
+    },
+    {
+      title: 'Ant Design Title 4'
+    },
+    {
+      title: 'Ant Design Title 4'
+    }
+  ];
   ngOnInit() {
     if (!this.socket.connected) {
       this.socket.connect(this.socket.user);

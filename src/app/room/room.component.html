@@ -1,4 +1,4 @@
-<nz-layout class="layout" [style.padding-left.px]="isCollapsed ? 80 : 200">
+<nz-layout class="layout">
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" class="slider">
     <div class="avatar-container">
       <nz-avatar [ngStyle]="{'background-color':socket.user.avatarColor}" [nzText]="socket.user.avatarText" nzSize="large"></nz-avatar>
@@ -10,12 +10,13 @@
       <li nz-menu-item>
         <nz-divider></nz-divider>
       </li>
-      <div class="song-container">
-        <li [nzTitle]="song.artist + ' - '  + song.album" nzPlacement="right" nz-tooltip nz-menu-item *ngFor="let song of socket.activeSongs;">
-          {{ song.name }}
-        </li>
-      </div>
-
+      <nz-anchor>
+        <div class="song-container">
+          <li [nzTitle]="song.artist + ' - '  + song.album" nzPlacement="right" nz-tooltip nz-menu-item *ngFor="let song of socket.activeSongs;">
+            {{ song.name }}
+          </li>
+        </div>
+      </nz-anchor>
 
     </ul>
   </nz-sider>
@@ -69,16 +70,39 @@
             </ng-template>
           </div>
         </div>
-        <div *ngFor="let music of list;" class="list">
-          <nz-card (click)="select(music)" [nzTitle]="music.name" class="list-card">
-            <nz-card-meta [nzTitle]="music.artist" [nzDescription]="music.album"></nz-card-meta>
-          </nz-card>
+        <div class="list-container">
+          <div *ngFor="let music of list;" class="list">
+            <nz-card (click)="select(music)" [nzTitle]="music.name" class="list-card">
+              <nz-card-meta [nzTitle]="music.artist" [nzDescription]="music.album"></nz-card-meta>
+            </nz-card>
+          </div>
         </div>
+
         <nz-pagination class="pagination" (nzPageIndexChange)="choosePage($event)" [nzPageIndex]="page" [nzPageSize]="pageSize" [nzHideOnSinglePage]="true"
           [nzTotal]="songCounts"></nz-pagination>
       </div>
 
-      <div class="content">Content</div>
+      <div class="content">
+        <div class="demo-infinite-container" infiniteScroll [infiniteScrollThrottle]="50" [scrollWindow]="false">
+          <nz-list [nzDataSource]="data" [nzRenderItem]="item">
+            <ng-template #item let-item>
+              <nz-list-item>
+                <nz-list-item-meta [nzTitle]="nzTitle" nzAvatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" [nzDescription]="item.email">
+                  <ng-template #nzTitle>
+                    <a href="https://ng.ant.design">123</a>
+                  </ng-template>
+                </nz-list-item-meta>
+              </nz-list-item>
+            </ng-template>
+            <nz-spin *ngIf="true" class="demo-loading"></nz-spin>
+          </nz-list>
+        </div>
+        <nz-mention [nzSuggestions]="suggestions">
+          <textarea class="textarea" [nzAutosize]="{ minRows: 8, maxRows: 16 }" nz-input [(ngModel)]="value" nzMentionTrigger>
+           </textarea>
+        </nz-mention>
+      </div>
+
     </nz-content>
     <nz-footer style="text-align: center; ">SJTU SOCKET-MUSIC ©2017 Implement By Angular</nz-footer>
   </nz-layout>

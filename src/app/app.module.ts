@@ -15,6 +15,7 @@ import { RoomComponent } from './room/room.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import zh from '@angular/common/locales/zh';
 import { environment } from '../environments/environment';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 registerLocaleData(zh);
 
 export const routes: Routes = [
@@ -31,6 +32,7 @@ const config: NgIoConfig = {
   declarations: [AppComponent, RoomComponent, SignInComponent, PlayerComponent],
   imports: [
     BrowserModule,
+    InfiniteScrollModule,
     NgIoModule.forRoot(config),
     BrowserAnimationsModule,
     FormsModule,

@@ -5,15 +5,15 @@
   margin: 16px 24px 16px 0;
   float: left;
 }
-.slider {
+/* .slider {
   position: fixed;
   height: 100%;
   left: 0;
-}
-.song-container {
+} */
+/* .song-container {
   max-height: calc(100vh - 200px);
   overflow-y: auto;
-}
+} */
 .header {
   position: relative;
   background: #fff;
@@ -65,17 +65,23 @@
 }
 
 .search-input {
-  min-width: 300px;
+  margin: auto;
+  min-width: 600px;
 }
 
 .content {
+  margin: auto;
   background: #fff;
   padding: 24px;
-  min-height: 380px;
+  max-width: 600px;
 }
 
 .content-wrapper {
   padding: 20px;
+}
+
+.users {
+  text-align: center;
 }
 
 .users-avator {
@@ -88,12 +94,21 @@
   margin: 10px;
 }
 
+.list-container {
+  max-width: 780px;
+  margin: auto;
+}
+
 .list-card {
   cursor: pointer;
 }
 .list-card:hover {
   box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
     0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+.textarea {
+  margin-top: 20px;
 }
 
 :host ::ng-deep .ant-pagination {
@@ -111,4 +126,25 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+:host ::ng-deep .ant-anchor-wrapper {
+  background: none;
+}
+
+:host ::ng-deep .ant-anchor-ink {
+  display: none;
+}
+
+:host ::ng-deep .demo-infinite-container {
+  /* border: 1px solid #e8e8e8; */
+  border-radius: 4px;
+  overflow: auto;
+
+  height: 500px;
+}
+:host ::ng-deep .demo-loading {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
 }
