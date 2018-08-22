@@ -92,7 +92,7 @@ export class SocketService {
       }
     });
 
-    this.socket.fromEvent<string>('userLevel').subscribe(name => {
+    this.socket.fromEvent<string>('userLeave').subscribe(name => {
       if (this.connected) {
         this.notify.info(`${name} 离开房间`, '');
       }
@@ -162,6 +162,7 @@ export class SocketService {
     this.connected = false;
     localStorage.removeItem('music_user');
     this.router.navigate(['/signin']);
+    this.socket.emit('userLeave');
   }
 
   selectSong(song: Song) {

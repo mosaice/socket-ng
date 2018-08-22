@@ -80,7 +80,7 @@ export class RoomComponent implements OnInit {
         }
       }, 300);
     }
-  };
+  }
 
   onScrollUp() {
     this.socket.moreMessage();
