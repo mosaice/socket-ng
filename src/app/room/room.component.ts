@@ -44,7 +44,7 @@ export class RoomComponent implements OnInit {
       .search({
         keywords: this.keyword,
         limit: this.pageSize,
-        offset: this.pageSize * this.page
+        offset: this.pageSize * (this.page - 1)
       })
       .subscribe(res => {
         this.list = res.songs;
