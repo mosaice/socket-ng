@@ -51,26 +51,32 @@ export class SocketService {
   ) {}
 
   init() {
-    this.socket.fromEvent<User>('userConnect').subscribe(user => {
-      this.connected = true;
-      this.user = user;
-      localStorage.setItem('music_user', JSON.stringify(user));
-      if (this.router.url !== '/') {
-        this.router.navigate(['/']);
-      }
+    // this.socket.fromEvent<User>('userConnect').subscribe(user => {
+    //   this.connected = true;
+    //   this.user = user;
+    //   localStorage.setItem('music_user', JSON.stringify(user));
+    //   if (this.router.url !== '/') {
+    //     this.router.navigate(['/']);
+    //   }
 
-      this.modalService.success({
-        nzTitle: `欢迎${this.router.url === '/' ? '回来' : ''} ${user.name}`,
-        nzContent: '继续享受音乐吧',
-        nzOnOk: () => {
-          this.inited = true;
-        }
-      });
-      // this.getAllUsers();
-    });
+    //   this.modalService.success({
+    //     nzTitle: `欢迎${this.router.url === '/' ? '回来' : ''} ${user.name}`,
+    //     nzContent: '继续享受音乐吧',
+    //     nzOnOk: () => {
+    //       this.inited = true;
+    //     }
+    //   });
+    //   // this.getAllUsers();
+    // });
 
     this.socket.fromEvent<User[]>('getAllUsers').subscribe(users => {
       this.onlineUser = users;
+    });
+
+    this.socket.fromEvent<string>('songError').subscribe(name => {
+      if (this.connected) {
+        this.notify.error(`歌曲-${name}`, '链接失效，请选择其他歌曲');
+      }
     });
 
     this.socket.fromEvent<Message>('sendMessage').subscribe(msg => {
@@ -121,7 +127,22 @@ export class SocketService {
   }
 
   connect(user: User) {
-    this.socket.emit('userConnect', user);
+    this.socket.emit('userConnect', user, () => {
+      this.connected = true;
+      this.user = user;
+      localStorage.setItem('music_user', JSON.stringify(user));
+      if (this.router.url !== '/') {
+        this.router.navigate(['/']);
+      }
+
+      this.modalService.success({
+        nzTitle: `欢迎${this.router.url === '/' ? '回来' : ''} ${user.name}`,
+        nzContent: '继续享受音乐吧',
+        nzOnOk: () => {
+          this.inited = true;
+        }
+      });
+    });
   }
 
   nextSong() {

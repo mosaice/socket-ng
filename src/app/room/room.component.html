@@ -23,7 +23,7 @@
   <nz-layout>
     <nz-header class="header">
       <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed" (click)="isCollapsed=!isCollapsed"></i>
-      <span *ngIf="socket.playingSong">正在播放：{{socket.playingSong.name}}</span>
+      <span *ngIf="socket.playingSong">正在播放：{{socket.playingSong.name}} - {{ socket.playingSong.artist }}</span>
       <div class="header-menu">
         <ul nz-menu [nzMode]="'horizontal'" style="line-height: 64px;">
           <li nz-menu-item>
