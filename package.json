@@ -29,6 +29,9 @@
     "ngx-infinite-scroll": "^6.0.1",
     "rxjs": "6",
     "rxjs-compat": "6",
+    "shipit-cli": "^4.1.1",
+    "shipit-deploy": "^4.1.1",
+    "shipit-shared": "^4.4.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
