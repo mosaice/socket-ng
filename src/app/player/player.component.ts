@@ -4,7 +4,8 @@ import {
   ViewChild,
   ElementRef,
   Input,
-  OnDestroy
+  OnDestroy,
+  AfterViewInit
 } from '@angular/core';
 import { SocketService } from '../services/socket.service';
 
@@ -14,7 +15,7 @@ import { SocketService } from '../services/socket.service';
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.css']
 })
-export class PlayerComponent implements OnDestroy {
+export class PlayerComponent implements OnDestroy, AfterViewInit {
   @Input()
   url: string;
   @Input()
@@ -25,7 +26,7 @@ export class PlayerComponent implements OnDestroy {
   mute: boolean;
   @ViewChild('audio')
   audio: ElementRef;
-  percent: number = 0;
+  percent = 0;
   constructor(private socket: SocketService) {}
 
   ngAfterViewInit() {
@@ -38,7 +39,7 @@ export class PlayerComponent implements OnDestroy {
   update = (audio: HTMLAudioElement) => {
     const { currentTime, duration } = this.audio.nativeElement;
     this.percent = (currentTime / duration) * 100;
-  };
+  }
   // ngOnChanges(changes: SimpleChanges) {
   //   if (changes['url'].currentValue !== changes['url'].previousValue) {
   //     // this.audio.nativeElement.play();
